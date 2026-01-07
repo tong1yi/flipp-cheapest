@@ -7,7 +7,7 @@ on:
 
 permissions:
   contents: write
-
+# trigger re-register
 jobs:
   fetch:
     runs-on: ubuntu-latest
