@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+<body>
+<h2>Cheapest Deals</h2>
+
+<select id="cat">
+  <option value="milk">Milk</option>
+</select>
+<button onclick="load()">Search</button>
+
+<div id="list"></div>
+
+<script>
+async function load() {
+  const cat = document.getElementById("cat").value;
+  const res = await fetch(`data/${cat}.json`);
+  const json = await res.json();
+  const items = json.ecom_items || [];
+
+  const best = {};
+  items.forEach(it => {
+    if (!it.name || it.current_price == null) return;
+    const key = it.name.toLowerCase().replace(/\d+.*$/, "");
+    if (!best[key] || it.current_price < best[key].current_price)
+      best[key] = it;
+  });
+
+  document.getElementById("list").innerHTML =
+    Object.values(best).map(it =>
+      `<div>${it.name} – ${it.merchant} – $${it.current_price}</div>`
+    ).join("");
+}
+</script>
+</body>
+</html>
