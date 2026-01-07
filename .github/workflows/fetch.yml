@@ -1,33 +1,10 @@
-name: Fetch Flipp Deals
+name: Hello Actions
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: "0 */6 * * *"
 
-permissions:
-  contents: write
-# trigger re-register
 jobs:
-  fetch:
+  hello:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-
-      - name: Fetch milk data
-        run: |
-          mkdir -p data
-          curl -sG 'https://backflipp.wishabi.com/flipp/items/search' \
-            --data-urlencode 'postal_code=M2N0M3' \
-            --data-urlencode 'locale=en-CA' \
-            --data-urlencode 'q=milk' \
-            > data/milk.json
-
-      - name: Commit data
-        run: |
-          git status
-          git config user.name "github-actions"
-          git config user.email "actions@github.com"
-          git add data/milk.json
-          git commit -m "update milk deals" || echo "no changes"
-          git push
+      - run: echo "hello from actions"
